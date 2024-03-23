@@ -11,7 +11,7 @@ python3 run_tests.py # and follow command line instructions
 python3
 ```
 
-- You may be directed to Microsoft Store (Windows) 
+- You may be directed to Microsoft Store (Windows), if so install python from there
 - For mac see this: https://docs.python-guide.org/starting/install3/osx/
 
 ---
