@@ -17,7 +17,7 @@ python3
 ---
 
 ### Q1: Remove Second Half of Linked List
-You are given a `Linked List`, `list1` and `list2`.
+You are given a `Linked List`, `list1`.
 
 Return a Linked List after removing the second half.
 
