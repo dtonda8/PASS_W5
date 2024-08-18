@@ -11,6 +11,7 @@ from abc import ABC, abstractmethod
 from typing import TypeVar, Generic
 T = TypeVar('T')
 
+
 class Set(ABC, Generic[T]):
     """ Abstract class for a generic Set. """
 

@@ -1,6 +1,5 @@
 """ Linked-node based implementation of List ADT. """
 from data_structures.node import Node
-import data_structures.node as node
 from data_structures.abstract_list import List, T
 
 __author__ = 'Maria Garcia de la Banda and Brendon Taylor. Modified by Alexey Ignatiev'
@@ -21,59 +20,63 @@ class LinkedList(List[T]):
 
     def __setitem__(self, index: int, item: T) -> None:
         """ Magic method. Insert the item at a given position. """
-        node = self._get_node_at_index(index)
-        node.item = item
+        node_at_index = self.__get_node_at_index(index)
+        node_at_index.item = item
 
     def __getitem__(self, index: int) -> T:
         """ Magic method. Return the element at a given position. """
-        node_at_index = self._get_node_at_index(index)
+        node_at_index = self.__get_node_at_index(index)
         return node_at_index.item
-
-    def index(self, item: T) -> int:
-        """ Find the position of a given item in the list. """
-        return node.index(self.head, item)
-
-    def _get_node_at_index(self, index: int) -> Node[T]:
-        """ Get node object at a given position. """
+        
+    def __get_node_at_index(self, index: int) -> Node[T]:
         if 0 <= index and index < len(self):
-            return node.get_node_at_index(self.head, index)
+            current = self.head
+            for i in range(index):
+                current = current.link
+            return current
         else:
             raise ValueError('Index out of bounds')
+ 
+    def index(self, item: T) -> int:
+        """ Find the position of a given item in the list. """
+        current = self.head
+        index = 0
+        while current is not None and current.item != item:
+            current = current.link
+            index += 1
+        if current is None:
+            raise ValueError('Item is not in list')
+        else:
+            return index
 
     def delete_at_index(self, index: int) -> T:
-        """ Delete item at a given position. """
         if self.is_empty():
-            raise Exception("Can't delete from empty list")
-        if index < 0 or index >= len(self):
-            raise IndexError("Invalid index")            
-
-        # Delete from front
-        if index == 0:
+            raise ValueError("Cannot delete from empty list")
+        
+        if index > 0:
+            previous_node = self.__get_node_at_index(index-1)
+            item = previous_node.link.item
+            previous_node.link = previous_node.link.link
+        elif index == 0:
             item = self.head.item
-            self.head = self.head.next
-        # Delete in the middle
+            self.head = self.head.link
         else:
-            previous_node = self._get_node_at_index(index - 1)
-            item = previous_node.next.item
-            previous_node.next = previous_node.next.next
-
+            raise IndexError("Index out of bounds")
+        
         self.length -= 1
         return item
-
-
+        
 
     def insert(self, index: int, item: T) -> None:
-        """ Insert an item at a given position. """
-        new_node = Node(item)
-
-        # Inserting at the head of the list
-        if index == 0:
-            new_node.next = self.head
-            self.head = new_node
-        # Inserting in the middle
-        else:
-            previous_node = self._get_node_at_index(index - 1)
-            new_node.next = previous_node.next
-            previous_node.next = new_node
+        if index > len(self):
+            raise IndexError("Index out of bounds")
         
+        new_node = Node(item)
+        if index == 0:
+            new_node.link = self.head
+            self.head = new_node
+        else:
+            previous_node = self.__get_node_at_index(index-1)
+            new_node.link = previous_node.link
+            previous_node.link = new_node
         self.length += 1

@@ -2,6 +2,7 @@
 Welcome to week 5's coding activity
 - Note: you're not allowed to use in-built lists, sets and dictionaries
 - To run tests, open terminal then:
+- As in Assignment, avoid directly modifying internal variables of classes
 ```sh
 python3 run_tests.py # and follow command line instructions
 ```
@@ -19,12 +20,17 @@ python3
 ### Q1: Remove Second Half of Linked List
 You are given a `Linked List`, `list1`.
 
-Return a Linked List after removing the second half.
+Return a Linked List after removing the second half. For odd-length Linked Lists, only remove the elements after the middle element.
 
 *Examples*
 
-Input: Linked List: 1 -> 0 -> 0 -> 8 -> 2 -> 0 -> 8 -> 5
-Output: Linked List: 1 -> 0 -> 0 -> 8 
+Input: Linked List: 1 -> 0 -> 0 -> 8 -> 1 -> 0 -> 5 -> 4 -> 2 -> 0 -> 8 -> 5
+Output: Linked List: 1 -> 0 -> 0 -> 8 -> 1 -> 0
+
+Input: Linked List: 5 -> 4 -> 2
+Output: Linked List: 5 -> 4
+
+**Note**: Linked Lists are not provided for Assignment 1
 
 
 ---
@@ -45,7 +51,3 @@ Output: [4,1,0,8]
 
 Assume Each k in `queries` is valid (i.e. `1 <= k <= n` where `n` is the length of `nums`)
 
-<details>
-<summary>Hint</summary>
-Think of a Data structure that stores the order of elements
-</details>

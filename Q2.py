@@ -1,9 +1,7 @@
-from typing import List, TypeVar
-from data_structures.list_adt import List
-T = TypeVar("T")
+from data_structures.referential_array import ArrayR
 
-def kth_smallest(nums: List[T], queries: List[T]) -> List[T]:
-	raise NotImplementedError
+def kth_smallest(nums: ArrayR, queries: ArrayR) -> ArrayR:
+	raise NotImplementedError()
 
 if __name__ == "__main__": # for personal tests
 	pass

@@ -11,6 +11,7 @@ from abc import ABC, abstractmethod
 from typing import Generic
 from data_structures.referential_array import ArrayR, T
 
+
 class Queue(ABC, Generic[T]):
     """ Abstract class for a generic Queue. """
 
@@ -27,6 +28,11 @@ class Queue(ABC, Generic[T]):
         """ Deletes and returns the element at the queue's front."""
         pass
 
+    @abstractmethod
+    def peek(self) -> T:
+        """ Returns the element at the queue's front."""
+        pass
+
     def __len__(self) -> int:
         """ Returns the number of elements in the queue."""
         return self.length
@@ -40,9 +46,10 @@ class Queue(ABC, Generic[T]):
         """ True if the stack is full and no element can be pushed. """
         pass
 
-    def clear(self):
+    def clear(self) -> None:
         """ Clears all elements from the queue. """
         self.length = 0
+
 
 class CircularQueue(Queue[T]):
     """ Circular implementation of a queue with arrays.
@@ -57,7 +64,7 @@ class CircularQueue(Queue[T]):
     """
     MIN_CAPACITY = 1
 
-    def __init__(self,max_capacity:int) -> None:
+    def __init__(self, max_capacity: int) -> None:
         Queue.__init__(self)
         self.front = 0
         self.rear = 0
@@ -89,6 +96,16 @@ class CircularQueue(Queue[T]):
         self.front = (self.front+1) % len(self.array)
         return item
 
+    def peek(self) -> T:
+        """ Returns the element at the queue's front.
+        :pre: queue is not empty
+        :raises Exception: if the queue is empty
+        """
+        if self.is_empty():
+            raise Exception("Queue is empty")
+
+        return self.array[self.front]
+
     def is_full(self) -> bool:
         """ True if the queue is full and no element can be appended. """
         return len(self) == len(self.array)
@@ -107,7 +124,7 @@ class TestQueue(unittest.TestCase):
     LARGE = 10
     CAPACITY = 20
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.lengths = [self.EMPTY, self.ROOMY, self.LARGE, self.ROOMY, self.LARGE]
         self.queues = [CircularQueue(self.CAPACITY) for i in range(len(self.lengths))]
         for queue, length in zip(self.queues, self.lengths):
@@ -125,32 +142,32 @@ class TestQueue(unittest.TestCase):
         self.queues[4].clear()
         self.lengths[4] = 0
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         for s in self.queues:
             s.clear()
 
-    def test_init(self):
+    def test_init(self) -> None:
         self.assertTrue(self.empty_queue.is_empty())
         self.assertEqual(len(self.empty_queue), 0)
 
-    def test_len(self):
+    def test_len(self) -> None:
         """ Tests the length of all queues created during setup."""
         for queue, length in zip(self.queues, self.lengths):
             self.assertEqual(len(queue), length)
 
-    def test_is_empty_add(self):
+    def test_is_empty_add(self) -> None:
         """ Tests queues that have been created empty/non-empty."""
         self.assertTrue(self.empty_queue.is_empty())
         self.assertFalse(self.roomy_queue.is_empty())
         self.assertFalse(self.large_queue.is_empty())
 
-    def test_is_empty_clear(self):
+    def test_is_empty_clear(self) -> None:
         """ Tests queues that have been cleared."""
         for queue in self.queues:
             queue.clear()
             self.assertTrue(queue.is_empty())
 
-    def test_is_empty_serve(self):
+    def test_is_empty_serve(self) -> None:
         """ Tests queues that have been served completely."""
         for queue in self.queues:
             #we empty the queue
@@ -164,13 +181,13 @@ class TestQueue(unittest.TestCase):
             except:
                 self.assertTrue(queue.is_empty())
 
-    def test_is_full_add(self):
+    def test_is_full_add(self) -> None:
         """ Tests queues that have been created not full."""
         self.assertFalse(self.empty_queue.is_full())
         self.assertFalse(self.roomy_queue.is_full())
         self.assertFalse(self.large_queue.is_full())
 
-    def test_append_and_serve(self):
+    def test_append_and_serve(self) -> None:
         for queue in self.queues:
             nitems = self.ROOMY
             for i in range(nitems):
@@ -178,11 +195,12 @@ class TestQueue(unittest.TestCase):
             for i in range(nitems):
                 self.assertEqual(queue.serve(), i)
 
-    def test_clear(self):
+    def test_clear(self) -> None:
         for queue in self.queues:
             queue.clear()
             self.assertEqual(len(queue), 0)
             self.assertTrue(queue.is_empty())
+
 
 if __name__ == '__main__':
     testtorun = TestQueue()

@@ -5,6 +5,7 @@
 from __future__ import annotations
 from data_structures.set_adt import Set
 
+
 class BSet(Set[int]):
     """A bit-vector implementation of the set ADT. The set is represented
         as an integer. The element is present in the set if and only if the
@@ -32,7 +33,7 @@ class BSet(Set[int]):
         """
         if not isinstance(item, int) or item <= 0:
             raise TypeError('Set elements should be integers')
-        return (self.elems >> (item - 1)) & 1
+        return (self.elems >> (item - 1)) & 1 == 1
 
     def __len__(self) -> int:
         """
@@ -98,7 +99,7 @@ class BSet(Set[int]):
         """
         return bin(self.elems).count('1')
 
-    def __str__(self):
+    def __str__(self) -> str:
         """ Construct a nice string representation. """
         bit_elems = self.elems
         out_elems = []
@@ -109,6 +110,7 @@ class BSet(Set[int]):
                 bit_elems &= ~(1 << current)
             current += 1
         return '{' + ', '.join(out_elems) + '}'
+
 
 if __name__ == '__main__':
     s = BSet(3)

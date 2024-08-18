@@ -11,12 +11,13 @@ from abc import ABC, abstractmethod
 from typing import TypeVar, Generic
 from data_structures.referential_array import ArrayR, T
 
+
 class Stack(ABC, Generic[T]):
     def __init__(self) -> None:
         self.length = 0
 
     @abstractmethod
-    def push(self,item:T) -> None:
+    def push(self,item: T) -> None:
         """ Pushes an element to the top of the stack."""
         pass
 
@@ -99,6 +100,7 @@ class ArrayStack(Stack[T]):
             raise Exception("Stack is empty")
         return self.array[self.length-1]
 
+
 class TestStack(unittest.TestCase):
     """ Tests for the above class."""
     EMPTY = 0
@@ -106,7 +108,7 @@ class TestStack(unittest.TestCase):
     LARGE = 10
     CAPACITY = 20
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.lengths = [self.EMPTY, self.ROOMY, self.LARGE, self.ROOMY, self.LARGE]
         self.stacks = [ArrayStack(self.CAPACITY) for i in range(len(self.lengths))]
         for stack, length in zip(self.stacks, self.lengths):
@@ -124,32 +126,32 @@ class TestStack(unittest.TestCase):
         self.stacks[4].clear()
         self.lengths[4] = 0
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         for s in self.stacks:
             s.clear()
 
-    def test_init(self):
+    def test_init(self) -> None:
         self.assertTrue(self.empty_stack.is_empty())
         self.assertEqual(len(self.empty_stack), 0)
 
-    def test_len(self):
+    def test_len(self) -> None:
         """ Tests the length of all stacks created during setup."""
         for stack, length in zip(self.stacks, self.lengths):
             self.assertEqual(len(stack), length)
 
-    def test_is_empty_add(self):
+    def test_is_empty_add(self) -> None:
         """ Tests stacks that have been created empty/non-empty."""
         self.assertTrue(self.empty_stack.is_empty())
         self.assertFalse(self.roomy_stack.is_empty())
         self.assertFalse(self.large_stack.is_empty())
 
-    def test_is_empty_clear(self):
+    def test_is_empty_clear(self) -> None:
         """ Tests stacks that have been cleared."""
         for stack in self.stacks:
             stack.clear()
             self.assertTrue(stack.is_empty())
 
-    def test_is_empty_pop(self):
+    def test_is_empty_pop(self) -> None:
         """ Tests stacks that have been popped completely."""
         for stack in self.stacks:
             #we empty the stack
@@ -163,13 +165,13 @@ class TestStack(unittest.TestCase):
             except:
                 self.assertTrue(stack.is_empty())
 
-    def test_is_full_add(self):
+    def test_is_full_add(self) -> None:
         """ Tests stacks that have been created not full."""
         self.assertFalse(self.empty_stack.is_full())
         self.assertFalse(self.roomy_stack.is_full())
         self.assertFalse(self.large_stack.is_full())
 
-    def test_push_and_pop(self):
+    def test_push_and_pop(self) -> None:
         for stack in self.stacks:
             nitems = self.ROOMY
             for i in range(nitems):
@@ -177,11 +179,12 @@ class TestStack(unittest.TestCase):
             for i in range(nitems-1, -1, -1):
                 self.assertEqual(stack.pop(), i)
 
-    def test_clear(self):
+    def test_clear(self) -> None:
         for stack in self.stacks:
             stack.clear()
             self.assertEqual(len(stack), 0)
             self.assertTrue(stack.is_empty())
+
 
 if __name__ == '__main__':
     testtorun = TestStack()

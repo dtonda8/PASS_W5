@@ -3,7 +3,6 @@ from Q1 import remove_second_half
 from ed_utils.decorators import number
 from data_structures.linked_list import LinkedList
 from tests.conversions import LLtoList, LL
-from typing import List
 
 
 class Test_Q1(unittest.TestCase):
@@ -17,11 +16,11 @@ class Test_Q1(unittest.TestCase):
             
     @number("1.1")
     def test_examples(self):
-        self.assertResultEqual(remove_second_half(LL([1,0,0,8,2,0,8,5])), LL([1,0,0,8,2,0,8,5]))
+        self.assertResultEqual(remove_second_half(LL([1,0,0,8,1,0,5,4,2,0,8,5])), LL([1,0,0,8,1,0]))
         
     @number("1.2")
     def test_extra(self):
-        self.assertResultEqual(remove_second_half(LL([1,1,0,8,2,0,8,5])), LL([1,1,0,8,2,0,8,5]))
+        self.assertResultEqual(remove_second_half(LL([1,1,0,8,2,0,8,5])), LL([1,1,0,8]))
         self.assertResultEqual(remove_second_half(LL([1,-1,2])), LL([1,-1]))
         self.assertResultEqual(remove_second_half(LL([1,-1])), LL([1]))
 
